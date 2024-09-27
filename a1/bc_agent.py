@@ -121,14 +121,20 @@ class BCAgent(base_agent.BaseAgent):
         '''
 
         ## a) sample an action from the policy
-        # placeholder
-        a_space = self._env.get_action_space()
-        a = torch.zeros(a_space.shape, device=self._device)
+        norm_obs = self.obs_norm.normalize(obs)
+        a_dist = self.model.eval_actor(norm_obs)
+        norm_a = a_dist.sample()
+        a = self.a_norm.unnormalize(norm_a)
+        
+        # # placeholder
+        # a_space = self._env.get_action_space()
+        # a = torch.zeros(a_space.shape, device=self._device)
         
         ## b) query the expert for an action
-        # placeholder
-        a_space = self._env.get_action_space()
-        expert_a = torch.zeros(a_space.shape, device=self._device)
+        expert_a = self.eval_expert(obs)
+        # # placeholder
+        # a_space = self._env.get_action_space()
+        # expert_a = torch.zeros(a_space.shape, device=self._device)
 
         a_info = {
             "expert_a": expert_a
@@ -139,6 +145,14 @@ class BCAgent(base_agent.BaseAgent):
         '''
         TODO 1.2: Implement code to calculate the loss for training the policy.
         '''
-        # placeholder
-        loss = torch.zeros(1, device=self._device)
+        a_dist = self.model.eval_actor(norm_obs)
+        log_prob = a_dist.log_prob(norm_expert_a)
+        loss = -log_prob.mean()
+        
+        # # placeholder
+        # loss = torch.zeros(1, device=self._device)
         return loss
+
+'''
+python run.py --mode train --env_config data/envs/dm_cheetah.yaml --agent_config a1/dm_cheetah_bc_agent.yaml --log_file output/log.txt --out_model_file output/model.pt --max_samples 20000 --visualize
+'''
