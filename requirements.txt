@@ -1,0 +1,10 @@
+dm_control
+gym[atari]==0.26.2
+gym[accept-rom-license]==0.26.2
+matplotlib
+numpy
+opencv-python
+pygame>=2.3.0
+pyyaml
+tensorboardX
+torch>=1.9.1
