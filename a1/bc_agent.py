@@ -161,9 +161,9 @@ python run.py --mode test --env_config data/envs/dm_cheetah.yaml --agent_config 
 
 
 
-python run.py --mode train --env_config data/envs/dm_walker.yaml --agent_config a1/dm_walker_bc_agent.yaml --log_file output/walker_dc_log.txt --out_model_file output/walker_dc_model.pt --max_samples 20000 --visualize
+python run.py --mode train --env_config data/envs/dm_walker.yaml --agent_config a1/dm_walker_bc_agent.yaml --log_file output/walker_bc_log.txt --out_model_file output/walker_bc_model.pt --max_samples 20000 --visualize
 
-python run.py --mode test --env_config data/envs/dm_walker.yaml --agent_config a1/dm_walker_bc_agent.yaml --model_file output/walker_dc_model.pt --test_episodes 20 --visualize
+python run.py --mode test --env_config data/envs/dm_walker.yaml --agent_config a1/dm_walker_bc_agent.yaml --model_file output/walker_bc_model.pt --test_episodes 20 --visualize
 
 
 
