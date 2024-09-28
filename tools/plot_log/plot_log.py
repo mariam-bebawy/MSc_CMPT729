@@ -9,13 +9,14 @@ sys.path.append(os.getcwd())
 import tools.util.plot_util as plot_util
 
 files = [
-    "output/log.txt",
+    # "output/cheetah_bc_log.txt",
+    "output/walker_bc_log.txt",
 ]
 
 draw_band = True
 x_key = "Samples"
 y_key = "Test_Return"
-plot_title = "Title"
+plot_title = files[0].split('/')[1]
 std_key = None
 
 def filter_data(x, window_size):
@@ -36,7 +37,7 @@ for f, file_group in enumerate(files):
     if not isinstance(file_group, list):
         if os.path.isdir(file_group):
             files = os.listdir(file_group)
-            files = filter(lambda f: "log" in f, files)
+            files = filter(lambda f: "*_log" in f, files)
             file_group = list(map(lambda f: file_group + "/" + f, files))
         else:
             file_group = [file_group]
