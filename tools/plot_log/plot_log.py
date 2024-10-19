@@ -9,14 +9,22 @@ sys.path.append(os.getcwd())
 import tools.util.plot_util as plot_util
 
 files = [
+    # "temp/cheetah_pg_log.txt", 
+    "output/log_cheetah_pg_1.txt", 
+    # "output/log_cheetah_pg_2.txt", 
+    # "output/log_cheetah_pg_4.txt", 
+    # "output/log_cheetah.txt", 
+    # "output/log_cheetah_2.txt", 
+    # "output/log_cheetah_4.txt", 
     # "output/cheetah_bc_log.txt",
-    "output/walker_bc_log.txt",
+    # "output/walker_bc_log.txt",
 ]
 
 draw_band = True
 x_key = "Samples"
 y_key = "Test_Return"
 plot_title = files[0].split('/')[1]
+plot_title = plot_title.split('.')[0]
 std_key = None
 
 def filter_data(x, window_size):
@@ -101,4 +109,5 @@ plt.legend()
 plt.title(plot_title)
 plt.tight_layout()
 
+plt.savefig(f'{plot_title}.png', dpi=300, bbox_inches='tight')
 plt.show()

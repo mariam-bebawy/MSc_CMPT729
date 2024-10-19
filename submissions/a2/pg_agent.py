@@ -273,7 +273,7 @@ python run.py --mode train \
 --num_workers 2 \
 --visualize
 
-python run.py --mode train --env_config data/envs/dm_cheetah.yaml --agent_config a2/dm_cheetah_pg_agent.yaml --log_file output/log_cheetah_pg.txt --out_model_file output/model_cheetah_pg.pt --max_samples 100000000 
+python run.py --mode train --env_config data/envs/dm_cheetah.yaml --agent_config a2/dm_cheetah_pg_agent.yaml --log_file output/log_cheetah_pg_1.txt --out_model_file output/model_cheetah_pg_1.pt --max_samples 100000000 --num_workers 1
 
 
 python run.py --mode train --env_config data/envs/dm_cheetah.yaml --agent_config a2/dm_cheetah_pg_agent.yaml --log_file output/log_cheetah_pg_2.txt --out_model_file output/model_cheetah_pg_2.pt --max_samples 100000000 --num_workers 2
