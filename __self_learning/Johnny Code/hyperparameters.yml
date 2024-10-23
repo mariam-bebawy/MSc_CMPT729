@@ -1,0 +1,20 @@
+# since we're testing on cartpole first
+# we'll create the set of hyperparameters for cartpole
+
+cartpole1:
+  env_id: CartPole-v1           # a dynamic name for the env to pass when training
+  
+  replay_memory_size: 100000    # size of the replay memory
+  # if the memory is too small then a lot of experience will be discarded
+  # the model won't have a lot of experience to train on
+
+  mini_batch_size: 32          # size of the mini-batch
+  # later on we're gonna sample from the replay memory
+
+  # now for the epsilon-greedy algorithm
+  epsilon_init: 1.0            # probability of taking a random action at the beginning ==> 100% random
+  epsilon_decay: 0.9995         # slowly decreasing epsilon
+  epsilon_min: 0.05             # probability of taking a random action at the end ==> 5% random action and 95% action dictated by the policy
+
+# after declaring the hyperparameters we can train the model
+# go back to the agent.py file and import the hyperparameters
