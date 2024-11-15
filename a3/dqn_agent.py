@@ -8,6 +8,8 @@ import learning.dqn_model as dqn_model
 import util.mp_util as mp_util
 import util.torch_util as torch_util
 
+import torch.nn.functional as F
+
 class DQNAgent(base_agent.BaseAgent):
     NAME = "DQN"
 
@@ -129,7 +131,16 @@ class DQNAgent(base_agent.BaseAgent):
         '''
 
         # placeholder
-        prob = 1.0
+        # prob = 1.0
+
+        n = self._sample_count
+        n_max = self._exp_anneal_samples
+        epsilon_beg = self._exp_prob_beg
+        epsilon_end = self._exp_prob_end
+
+        # prob = epsilon_end + (epsilon_beg - epsilon_end) * (n / n_max)
+        l = n / n_max
+        prob = (1 - l) * epsilon_beg + l * epsilon_end
 
         return prob
 
@@ -145,7 +156,19 @@ class DQNAgent(base_agent.BaseAgent):
         exp_prob = self._get_exp_prob()
 
         # placeholder
-        a = torch.zeros(qs.shape[0], device=self._device, dtype=torch.int64)
+        # a = torch.zeros(qs.shape[0], device=self._device, dtype=torch.int64)
+
+        exp_prob = self._get_exp_prob()
+        batch_size = qs.shape[0]
+        action_dim = qs.shape[1]
+
+        a = torch.zeros(batch_size, device=self._device, dtype=torch.int64)
+        for i in range(batch_size):
+            if np.random.rand() < exp_prob:
+                a[i] = np.random.randint(action_dim)
+            else:
+                a[i] = torch.argmax(qs[i])
+
         return a
     
     def _compute_tar_vals(self, r, norm_next_obs, done):
@@ -159,7 +182,16 @@ class DQNAgent(base_agent.BaseAgent):
         '''
         
         # placeholder
-        tar_vals = torch.zeros_like(r)
+        # tar_vals = torch.zeros_like(r)
+
+        self.gamma = self._discount
+        self.gamma  = 0.99
+
+        with torch.no_grad():
+            q_next = self._tar_model.eval_q(norm_next_obs)
+            # max_q_next = torch.max(q_next, dim=1)[0]
+            max_q_next = torch.max(q_next, dim=1)
+            tar_vals = r + self.gamma * max_q_next * (1 - done)
 
         return tar_vals
 
@@ -172,7 +204,13 @@ class DQNAgent(base_agent.BaseAgent):
         '''
         
         # placeholder
-        loss = torch.zeros(1, device=self._device)
+        # loss = torch.zeros(1, device=self._device)
+
+        q_values = self._model.eval_q(norm_obs)
+        q_values_selected = q_values.gather(1, a).squeeze(1)
+        # q_values = torch.gather(q_values, 1, a.unsqueeze(1)).squeeze(1)
+        # loss = torch.nn.functional.mse_loss(q_values_selected, tar_vals)
+        loss = F.mse_loss(q_values_selected, tar_vals)
         
         return loss
     
@@ -183,5 +221,7 @@ class DQNAgent(base_agent.BaseAgent):
         HINT: self._model.parameters() can be used to retrieve a list of tensors containing
         the parameters of a model.
         '''
+
+        self._tar_model.load_state_dict(self._model.state_dict())
         
         return
