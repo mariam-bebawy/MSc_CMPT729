@@ -189,8 +189,8 @@ class DQNAgent(base_agent.BaseAgent):
 
         with torch.no_grad():
             q_next = self._tar_model.eval_q(norm_next_obs)
-            # max_q_next = torch.max(q_next, dim=1)[0]
-            max_q_next = torch.max(q_next, dim=1)
+            max_q_next = torch.max(q_next, dim=1)[0]
+            # max_q_next = torch.max(q_next, dim=1)
             tar_vals = r + self.gamma * max_q_next * (1 - done)
 
         return tar_vals
@@ -225,3 +225,57 @@ class DQNAgent(base_agent.BaseAgent):
         self._tar_model.load_state_dict(self._model.state_dict())
         
         return
+
+''' pong
+python run.py --mode train \
+--env_config data/envs/atari_pong.yaml \
+--agent_config a3/atari_pong_dqn_agent.yaml \
+--log_file output/atari_pong_dqn_log.txt \
+--out_model_file output/atari_pong_dqn_model.pt \
+--max_samples 3000000 \
+--device cuda:0 \
+--visualize
+
+
+python run.py --mode train --env_config data/envs/atari_pong.yaml --agent_config a3/atari_pong_dqn_agent.yaml --log_file output/atari_pong_dqn_log.txt --out_model_file output/atari_pong_dqn_model.pt --max_samples 3000000 --device cuda:0
+
+
+
+python run.py --mode test \
+--env_config data/envs/atari_pong.yaml \
+--agent_config a3/atari_pong_dqn_agent.yaml \
+--model_file output/atari_pong_dqn_model.pt \
+--test_episodes 20 \
+--visualize
+
+
+python run.py --mode test --env_config data/envs/atari_pong.yaml --agent_config a3/atari_pong_dqn_agent.yaml --model_file output/atari_pong_dqn_model.pt --test_episodes 20
+
+'''
+
+
+
+''' breakout
+python run.py --mode train \
+--env_config data/envs/atari_breakout.yaml \
+--agent_config a3/atari_breakout_dqn_agent.yaml \
+--log_file output/atari_breakout_dqn_log.txt \
+--out_model_file output/atari_breakout_dqn_model.pt \
+--max_samples 3000000 \
+--visualize
+
+
+python run.py --mode train --env_config data/envs/atari_breakout.yaml --agent_config a3/atari_breakout_dqn_agent.yaml --log_file output/atari_breakout_dqn_log.txt --out_model_file output/atari_breakout_dqn_model.pt --max_samples 3000000 --device cuda:0
+
+
+
+python run.py --mode test \
+--env_config data/envs/atari_breakout.yaml \
+--agent_config a3/atari_breakout_dqn_agent.yaml \
+--model_file output/atari_breakout_dqn_model.pt \
+--test_episodes 20 \
+--visualize
+
+
+python run.py --mode test --env_config data/envs/atari_breakout.yaml --agent_config a3/atari_breakout_dqn_agent.yaml --model_file output/atari_breakout_dqn_model.pt --test_episodes 20
+'''
