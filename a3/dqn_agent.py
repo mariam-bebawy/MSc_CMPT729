@@ -265,8 +265,9 @@ python run.py --mode train \
 --visualize
 
 
-python run.py --mode train --env_config data/envs/atari_breakout.yaml --agent_config a3/atari_breakout_dqn_agent.yaml --log_file output/atari_breakout_dqn_log.txt --out_model_file output/atari_breakout_dqn_model.pt --max_samples 3000000 --device cuda:0
+python run.py --mode train --env_config data/envs/atari_breakout.yaml --agent_config a3/atari_breakout_dqn_agent.yaml --log_file output/atari_breakout_dqn_log.txt --out_model_file output/atari_breakout_dqn_model.pt --max_samples 3000000
 
+python run.py --mode train --env_config data/envs/atari_breakout.yaml --agent_config a3/atari_breakout_dqn_agent.yaml --log_file output/new_breakout_log.txt --out_model_file output/new_breakout_model.pt --max_samples 3000000
 
 
 python run.py --mode test \

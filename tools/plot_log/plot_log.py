@@ -9,7 +9,8 @@ sys.path.append(os.getcwd())
 import tools.util.plot_util as plot_util
 
 files = [
-    "output/atari_pong_dqn_log.txt",
+    # "output/atari_pong_dqn_log.txt",
+    "output/atari_breakout_dqn_log.txt",
 ]
 
 draw_band = True
